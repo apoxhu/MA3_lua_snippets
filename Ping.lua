@@ -7,7 +7,7 @@
 -- The function will return an object with several functions to get result lines, get the state, or free the object. It is currently not implemented to stop a running executable.
 -- Warning: if the plugin is interrupted before the object is freed it will leave temporary files behind.
 function cmdAsync(cmd)
-    local tmpfile = os.tmpname()
+    local tmpfile = GetPath(Enums.PathType.Temp)-- os.tmpname() returns empty string on console !
     
     os.execute('mkdir '..tmpfile)
     
@@ -20,7 +20,7 @@ function cmdAsync(cmd)
         local f = io.open(tmpfile..'/x.sh','w')
         f:write("#!/bin/bash\n"..cmd.."\necho $? > return_value.txt\nexit")
         f:close()
-        os.execute('cd '..tmpfile..' && ./x.sh > output.txt')
+        os.execute('cd '..tmpfile..' && chmod +x x.sh && ./x.sh > output.txt 2>&1 &')
     end
     
     local outFile = io.open(tmpfile..'/output.txt', "r")
@@ -65,7 +65,7 @@ function cmdAsync(cmd)
             if HostOS() == 'Windows' then
                 os.execute('rmdir /s /q '..tmpfile)
             else
-                os.execute('rm -r '..tmpfile)
+                os.execute('rm -rf '..tmpfile)
             end
         end
     }
@@ -74,7 +74,8 @@ end
 return function(display, host)
     local host = host
     Echo("Pinging "..host.."...")
-    local cmdObj = cmdAsync('ping -n 4 '..host)
+    local command = (HostOS() == 'Windows') and 'ping -n 4 ' or 'ping -c 4 '
+    local cmdObj = cmdAsync(command..host)
     local result
     repeat
         result = cmdObj:getLine()
