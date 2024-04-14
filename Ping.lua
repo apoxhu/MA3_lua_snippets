@@ -8,8 +8,10 @@
 -- Warning: if the plugin is interrupted before the object is freed it will leave temporary files behind.
 function cmdAsync(cmd)
     local tmpfile = GetPath(Enums.PathType.Temp)-- os.tmpname() returns empty string on console !
+    tmpfile = tmpfile.."/LCA"..tostring(os.clock()):gsub('%.','')
+    Echo("cmdAsync File folder : "..tmpfile)
     
-    os.execute('mkdir '..tmpfile)
+    os.execute('mkdir "'..tmpfile..'"')
     
     if HostOS() == 'Windows' then
         local f = io.open(tmpfile..'/x.bat','w')
@@ -53,7 +55,6 @@ function cmdAsync(cmd)
             local bytesToRead = newEndPosition - lastPosition
 
             if bytesToRead == 0 then return false end
-
             local content, err = outFile:read(bytesToRead)
 
             if not self:isRunning() then finished = true; io.close(outFile); outFile = nil end
@@ -63,17 +64,17 @@ function cmdAsync(cmd)
         free = function()
             if outFile then io.close(outFile) outFile = nil end
             if HostOS() == 'Windows' then
-                os.execute('rmdir /s /q '..tmpfile)
+                os.execute('rmdir /s /q "'..tmpfile..'"')
             else
-                os.execute('rm -rf '..tmpfile)
+                os.execute('rm -rf "'..tmpfile..'"')
             end
         end
     }
 end
 
 return function(display, host)
-    local host = host
-    Echo("Pinging "..host.."...")
+    host = host or TextInput("Enter IP:")
+    Printf("Pinging "..host.."...")
     local command = (HostOS() == 'Windows') and 'ping -n 4 ' or 'ping -c 4 '
     local cmdObj = cmdAsync(command..host)
     local result
