@@ -11,7 +11,7 @@ function cmdAsync(cmd)
     tmpfile = tmpfile.."/LCA"..tostring(os.clock()):gsub('%.','')
     Echo("cmdAsync File folder : "..tmpfile)
     
-    os.execute('mkdir "'..tmpfile..'"')
+    os.execute('mkdir -p "'..tmpfile..'"')
     
     if HostOS() == 'Windows' then
         local f = io.open(tmpfile..'/x.bat','w')
