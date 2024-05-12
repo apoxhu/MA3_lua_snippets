@@ -74,6 +74,7 @@ end
 
 return function(display, host)
     host = host or TextInput("Enter IP:")
+    if host == nil or host == "" then return end
     Printf("Pinging "..host.."...")
     local command = (HostOS() == 'Windows') and 'ping -n 4 ' or 'ping -c 4 '
     local cmdObj = cmdAsync(command..host)
@@ -82,8 +83,8 @@ return function(display, host)
     -- UI preparation for displaying ping result   
 	Timer(function()
 		MessageBox({
-			title = "Ping", 
-			message = "Pinging "..host.."...\n"
+			title = "Pinging "..host, 
+			message = " "
 		})
 	end, 0, 1)
 	
