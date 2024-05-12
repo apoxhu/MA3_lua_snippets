@@ -1,9 +1,9 @@
--- quick and dirty ping from adam.pinter@apox.hu
+-- ping from adam.pinter@apox.hu
 -- Usage: Plugin ping "127.0.0.1"
--- Note: This code has not yet been tested on Mac OS or Linux (console)!
--- Please be cautious and don't run it untested in show situations!
+-- Can also run from plugin pool, it will ask for input
+-- Has been tested on windows, mac and desks.
 
--- function to run a command asynchronously.
+-- Function to run a command asynchronously.
 -- The function will return an object with several functions to get result lines, get the state, or free the object. It is currently not implemented to stop a running executable.
 -- Warning: if the plugin is interrupted before the object is freed it will leave temporary files behind.
 function cmdAsync(cmd)
@@ -78,12 +78,38 @@ return function(display, host)
     local command = (HostOS() == 'Windows') and 'ping -n 4 ' or 'ping -c 4 '
     local cmdObj = cmdAsync(command..host)
     local result
+ 
+    -- UI preparation for displaying ping result   
+	Timer(function()
+		MessageBox({
+			title = "Ping", 
+			message = "Pinging "..host.."...\n"
+		})
+	end, 0, 1)
+	
+	coroutine.yield(0.1)
+	local texts = {}
+	
+	for _, display in ipairs(GetDisplayCollect()) do
+		local text = display:FindRecursive('MsgBox'):FindRecursive("Text")
+        if IsObjectValid(text) then
+            text.TextAlignmentH = "Left"
+            table.insert(texts, text)
+        end
+	end
+	
+	-- wait for lines from ping
     repeat
         result = cmdObj:getLine()
         if result then 
             for line in result:gmatch("[^\n]+") do
                 Printf(line)
             end
+			for _, text in ipairs(texts) do
+			    if (IsObjectValid(text)) then
+					text.Text = text.Text .. result 
+				end
+			end
         end
         coroutine.yield(0.1)
     until result == nil
