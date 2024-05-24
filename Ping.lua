@@ -81,7 +81,7 @@ return function(display, host)
     local result
  
     -- UI preparation for displaying ping result   
-	Timer(function()
+	Timer(function() -- put MessageBox in Timer so it won't block
 		MessageBox({
 			title = "Pinging "..host, 
 			message = " "
@@ -91,11 +91,14 @@ return function(display, host)
 	coroutine.yield(0.1)
 	local texts = {}
 	
-	for _, display in ipairs(GetDisplayCollect()) do
-		local text = display:FindRecursive('MsgBox'):FindRecursive("Text")
-        if IsObjectValid(text) then
-            text.TextAlignmentH = "Left"
-            table.insert(texts, text)
+	for i = 1, #GetDisplayCollect() do
+        local _display = GetDisplayCollect()[i]
+        if _display ~= nil then
+            local text = _display:FindRecursive('MsgBox'):FindRecursive("Text")
+            if IsObjectValid(text) then
+                text.TextAlignmentH = "Left"
+                table.insert(texts, text)
+            end
         end
 	end
 	
