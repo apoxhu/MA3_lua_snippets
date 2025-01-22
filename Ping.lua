@@ -1,4 +1,11 @@
--- ping from adam.pinter@apox.hu
+-- ping plugin
+-- (C) 2024-2025 Adam Pinter - adam.pinter@apox.hu
+-- This code is licensed under an adapted version of the Creative Commons Attribution-NonCommercial 4.0 International
+-- (CC BY-NC 4.0) license. It permits users to modify and use the software for personal or professional (for-profit)
+-- purposes, provided that the software itself is not sold, sublicensed, or redistributed for profit. The copyright
+-- notice must always be retained in all copies or derivative works. This software is provided "as-is," without warranty
+-- of any kind. You can read the full license at https://github.com/apoxhu/MA3_lua_snippets/blob/main/LICENSE.md
+
 -- Usage: Plugin ping "127.0.0.1"
 -- Can also run from plugin pool, it will ask for input
 -- Has been tested on windows, mac and desks.
