@@ -6,7 +6,7 @@ To load these plugins, just copy&paste the contents into a Plugin's Component.
 
 Other plugins can be found at https://plugins.apox.hu/
 
-LICENSE
+# LICENSE
 All code published in this repository is licensed under a derivation of CC BY-NC. 
 You can read the license at:
 https://creativecommons.org/licenses/by-nc/4.0/
