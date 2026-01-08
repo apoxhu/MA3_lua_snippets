@@ -1,8 +1,16 @@
---[[
-This script assigns tags to recipes based on their targets.
-Each configuration entry specifies a target list and the corresponding tag to assign.
-Written by adam.pinter@apox.hu 2026
-]]
+-- Tag Recipes By Selection
+
+-- This script assigns tags to recipes based on their targets.
+-- Each configuration entry specifies a target list and the corresponding tag to assign.
+
+-- Written by adam.pinter@apox.hu
+-- (C) 2024-2025 Adam Pinter - adam.pinter@apox.hu
+
+-- This code is licensed under an adapted version of the Creative Commons Attribution-NonCommercial 4.0 International
+-- (CC BY-NC 4.0) license. It permits users to modify and use the software for personal or professional (for-profit)
+-- purposes, provided that the software itself is not sold, sublicensed, or redistributed for profit. The copyright
+-- notice must always be retained in all copies or derivative works. This software is provided "as-is," without warranty
+-- of any kind. You can read the full license at https://github.com/apoxhu/MA3_lua_snippets/blob/main/LICENSE.md
 
 local config = {
     {targetList = "Group 1 Thru 100", tag = "GROUP1"},
